@@ -1,7 +1,7 @@
 version: "3.1"
 services:
   web:
-    image: odoo:16
+    image: odoo:17
     container_name: web-odoo
     depends_on:
       - db
@@ -36,7 +36,7 @@ services:
     volumes:
        - pgadmin:/var/lib/pgadmin
     ports:
-      - 5433:80
+      - 5432:80
     networks:
       - odoo
     restart: unless-stopped
