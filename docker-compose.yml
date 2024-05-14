@@ -71,6 +71,7 @@ services:
     volumes:
       - ./letsencrypt:/etc/letsencrypt
       - ./certbot-log:/var/log/letsencrypt
+      - /dev/null:/etc/s6-overlay/s6-rc.d/prepare/50-ipv6.sh
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     depends_on:
       - app
@@ -86,3 +87,4 @@ volumes:
   odoo-db-data:
   pgadmin:
   certbot-log:
+  
