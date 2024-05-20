@@ -16,7 +16,7 @@ services:
       - odoo
 
   db:
-    image: postgres:13
+    image: postgres:15
     container_name: db-odoo
     environment:
       - POSTGRES_DB=postgres
@@ -55,28 +55,28 @@ services:
     networks:
       - odoo
 
-  app:
-    image: 'docker.io/jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    ports:
-      - '8080:80'
-      - '81:81'
-      - '9443:9443'
-    volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+  # app:
+  #   image: 'docker.io/jc21/nginx-proxy-manager:latest'
+  #   restart: unless-stopped
+  #   ports:
+  #     - '8080:80'
+  #     - '81:81'
+  #     - '9443:9443'
+  #   volumes:
+  #     - ./data:/data
+  #     - ./letsencrypt:/etc/letsencrypt
 
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./letsencrypt:/etc/letsencrypt
-      - ./certbot-log:/var/log/letsencrypt
-      - /dev/null:/etc/s6-overlay/s6-rc.d/prepare/50-ipv6.sh
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    depends_on:
-      - app
-    networks:
-      - odoo
+  # certbot:
+  #   image: certbot/certbot
+  #   volumes:
+  #     - ./letsencrypt:/etc/letsencrypt
+  #     - ./certbot-log:/var/log/letsencrypt
+  #     - /dev/null:/etc/s6-overlay/s6-rc.d/prepare/50-ipv6.sh
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  #   depends_on:
+  #     - app
+  #   networks:
+  #     - odoo
 
 networks:
   odoo:
