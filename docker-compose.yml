@@ -15,10 +15,12 @@ services:
       - odoo
 
   db:
-    image: postgres:15
+    build:
+      context: .
+      dockerfile: Dockerfile-db
     container_name: db-odoo
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=odoo
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
@@ -54,16 +56,16 @@ services:
     networks:
       - odoo
 
-  # app:
-  #   image: 'docker.io/jc21/nginx-proxy-manager:latest'
-  #   restart: unless-stopped
-  #   ports:
-  #     - '8080:80'
-  #     - '81:81'
-  #     - '9443:9443'
-  #   volumes:
-  #     - ./data:/data
-  #     - ./letsencrypt:/etc/letsencrypt
+  app:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+      - '81:81'
+      - '9443:9443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
 
   # certbot:
   #   image: certbot/certbot
